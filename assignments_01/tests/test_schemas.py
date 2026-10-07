@@ -5,6 +5,8 @@ from weatherkit import WeatherResponse
 from pathlib import Path
 
 
+# a plain relative path breaks depending on which folder the terminal is in(Current Working Directory),
+# but Path(__file__) permanently anchors it to the script's actual location.
 WEATHER_DATA_PATH = Path(__file__).parent.parent / "weather_raw.json"
 
 

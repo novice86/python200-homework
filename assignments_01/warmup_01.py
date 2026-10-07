@@ -18,7 +18,7 @@ class Thermometer:
     def average(self):
         # we need to check if there are any readings to avoid division by zero
         if not self.readings:
-            return 0.0
+            return None
         
         return sum(self.readings) / len(self.readings)
 
@@ -195,11 +195,11 @@ if __name__ == "__main__":
 
     # Dataclass Question 1
     station_a = Station("001", "Station A", 40.7128, -74.0060, 10.0)
-    station_b = Station("002", "Station B", 34.0522, -118.2437, 15.0)
+    station_b = Station("001", "Station A", 40.7128, -74.0060, 10.0)
 
     # Check if two stations are equal based on their attributes. @dataclass automatically generates 
     # the __eq__ method for us, which compares the attributes of the instances.
-    print(station_a == station_b)  # False
+    print(station_a == station_b)  # True
 
     
     # Dataclass Question 2

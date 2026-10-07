@@ -36,5 +36,6 @@ class WeatherResponse(BaseModel):
     """
     latitude: float = Field(ge=-90, le=90, description="Latitude of the location")
     longitude: float = Field(ge=-180, le=180, description="Longitude of the location")
+    elevation: float
     timezone: str
     hourly: HourlyBlock

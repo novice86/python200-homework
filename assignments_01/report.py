@@ -6,17 +6,14 @@ from weatherkit import to_readings
 from weatherkit import DailyAggregator
 
 
-# This guard ensures that the code below only runs when this script is executed directly, but 
-# not when it is imported as a module in another script.
-if __name__ == "__main__":
-
+def main():
     with open("weather_raw.json", "r") as f:
-        raw_data = json.load(f)
-
-
+            raw_data = json.load(f)
+    
+    
     # Validate the dictionary using the Pydantic model
     validated_weather = WeatherResponse.model_validate(raw_data)
-
+    
     print(f"Latitude: {validated_weather.latitude}")
     print(f"Timezone: {validated_weather.timezone}")
     print(f"Hourly Observations: {len(validated_weather.hourly.time)}")
@@ -35,6 +32,13 @@ if __name__ == "__main__":
         print(f"{day.date:<12} | {day.temp_max:>3}° | {day.temp_min:>3}° | {day.precipitation_sum:>6.2f} | {day.hours_observed:>4}")
 
     print("\nWarning: The following incomplete days were dropped:", ", ".join(incomplete_days))
+
+
+
+# This guard ensures that the code below only runs when this script is executed directly, but 
+# not when it is imported as a module in another script.
+if __name__ == "__main__":
+    main()
 
 # Your WeatherResponse rejects the whole file if a single temperature is null. 
 # Is that the right behavior for a weather pipeline? Describe one situation where you would want it, 
