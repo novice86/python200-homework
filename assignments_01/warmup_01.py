@@ -212,7 +212,7 @@ if __name__ == "__main__":
     # frozen = True means that the attributes of the dataclass cannot be modified after the instance is created.
     # But also it means that the instances of dataclass are hashable and can be used in sets or 
     # as dictionary keys. This is useful for ensuring that the data remains consistent and unchanged.
-    station_c =  station_b = Station("002", "Station C", 42.7128, -73.0060, 11.0)
+    station_c = Station("002", "Station C", 42.7128, -73.0060, 11.0)
     stations = set([station_a, station_b, station_c])
     print(f"Number of unique stations: {len(stations)}")
 

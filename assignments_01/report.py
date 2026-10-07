@@ -27,9 +27,9 @@ def main():
     incomplete_days = daily_aggregator.incomplete_days(hourly_readings)
 
 
-    print(f"{'date':<12} | {'temp_max':>6} | {'temp_min':>6} | {'precipitation_sum':>7} | {'hours_observed':>5}")
+    print(f"{'date':<12} | {'temp_max':>6} | {'temp_min':>6} | {'precipitation_sum':>7} | {'temp_range':>5}")
     for day in daily_summaries:
-        print(f"{day.date:<12} | {day.temp_max:>3}° | {day.temp_min:>3}° | {day.precipitation_sum:>6.2f} | {day.hours_observed:>4}")
+        print(f"{day.date:<12} | {day.temp_max:>3}° | {day.temp_min:>3}° | {day.precipitation_sum:>6.2f} | {day.temp_range():>6.2f}")
 
     print("\nWarning: The following incomplete days were dropped:", ", ".join(incomplete_days))
 
