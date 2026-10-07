@@ -82,7 +82,7 @@ class DailyAggregator:
                     )
                 )
 
-        return summaries
+        return sorted(summaries, key=lambda s: s.date)
 
     def incomplete_days(self, readings: list[HourlyReading]) -> list[str]:
         """

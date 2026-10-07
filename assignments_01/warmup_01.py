@@ -103,6 +103,7 @@ def test_celsius_to_fahrenheit():
     """ Tests the celsius_to_fahrenheit function. """
     assert celsius_to_fahrenheit(0) == 32
     assert celsius_to_fahrenheit(100) == 212
+    # 37 * 9/5 + 32 produces a float with rounding error that doesn't exactly equal 98.6, which is why an exact == comparison would fail.
     assert celsius_to_fahrenheit(37) == pytest.approx(98.6, 0.1)
 
 
@@ -211,7 +212,8 @@ if __name__ == "__main__":
     # frozen = True means that the attributes of the dataclass cannot be modified after the instance is created.
     # But also it means that the instances of dataclass are hashable and can be used in sets or 
     # as dictionary keys. This is useful for ensuring that the data remains consistent and unchanged.
-    stations = set([station_a, station_a, station_b])
+    station_c =  station_b = Station("002", "Station C", 42.7128, -73.0060, 11.0)
+    stations = set([station_a, station_b, station_c])
     print(f"Number of unique stations: {len(stations)}")
 
     # Pydantic Question 1
