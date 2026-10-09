@@ -148,3 +148,31 @@ plt.savefig("outputs/predicted_vs_actual_high.png")
 # around the reference line. However, it struggles more in the middle 
 # and lower-middle ranges, where the points spread out much 
 # further vertically from the line, indicating larger prediction errors for milder days.
+
+# Summary
+# 
+# 1. Dataset Size: 
+# We analyzed a full year of weather data (365 days). We split this into an 
+# 80% training set (292 days) to teach the model, and a 20% test set (73 days) 
+# to evaluate its performance on unseen data.
+# 
+# 2. Model Performance (RMSE and R²): 
+# Our full model achieved an R² of 0.90 and an RMSE of 2.67 on the test set. 
+# In practical terms, this R² means our features successfully explain 90% of 
+# the changes in the daily high temperature. The RMSE means that when the model 
+# makes a prediction, its guess is typically off by about 2.7 degrees Celsius.
+# 
+# 3. Largest Effect on Predicted High: 
+# While the daily minimum temperature sets the baseline (+0.925 degrees for every 
+# 1-degree increase in the low), the 'is_summer' feature has the largest individual 
+# coefficient (+0.956). This means that simply being in June, July, or August 
+# pushes the predicted high temperature up by nearly a full degree, acting as 
+# a strong positive multiplier. 
+# 
+# 4. Surprising Result: 
+# One surprising result from our diagnostic plots is that the model is actually 
+# most accurate at predicting extreme heat (days over 25°C), but struggles with 
+# a much wider margin of error during milder, transitional days (10°C to 25°C). 
+# Additionally, the relatively small negative impact of precipitation (-0.140) 
+# is somewhat surprising, as rainy days often intuitively feel much colder to us 
+# than a mere fraction of a degree.
