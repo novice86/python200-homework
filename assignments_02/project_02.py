@@ -141,8 +141,8 @@ plt.xlabel("Predicted High Temperature")
 plt.ylabel("Actual High Temperature")
 plt.legend()
 
-plt.show()
 plt.savefig("outputs/predicted_vs_actual_high.png")
+plt.show()
 # Based on the Predicted vs Actual plot, the error is not perfectly even across the range.
 # The model performs exceptionally well at the high end, with points tightly clustered 
 # around the reference line. However, it struggles more in the middle 
