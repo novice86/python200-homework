@@ -28,7 +28,7 @@ scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_test_scaled = scaler.transform(X_test)
 
-print(X_test_scaled.mean(axis=0))
+print(X_train_scaled.mean(axis=0))
 # We fit scaler on the X_train set only to avoid leaking the test set, 
 # ensuring that no information from the test set influences our preprocessing or model training.
 
@@ -101,7 +101,7 @@ print("Test accuracy:", accuracy_score(y_test, y_pred))
 print("\nClassification Report: \n", classification_report(y_test, y_pred))
 
 # KNN Question 2
-for k in [1, 3, 5, 7, 9, 11, 15, 19, 25]:
+for k in [1, 3, 5, 7, 9, 11, 15, 19, 21]:
     knn = Pipeline(
         steps=[
             ('scaler', StandardScaler()),
@@ -180,8 +180,8 @@ cm = confusion_matrix(y_test, y_pred, labels=[0, 1])
 disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["skip", "good"])
 disp.plot(colorbar=False)
 plt.title("Test Confusion Matrix")
-plt.show()
 plt.savefig("outputs/logreg_confusion_matrix.png")
+plt.show()
 
 # Number of False Positives = 7
 # Number of False Negatives = 9
