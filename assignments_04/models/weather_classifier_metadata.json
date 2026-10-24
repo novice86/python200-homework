@@ -1,0 +1,14 @@
+{
+    "python_version": "3.13.5 (main, Jun 12 2025, 12:32:44) [Clang 20.1.4 ]",
+    "scikit_learn_version": "1.9.1",
+    "feature_names": [
+        "temperature_2m_max",
+        "temperature_2m_min",
+        "precipitation_sum",
+        "wind_speed_10m_max"
+    ],
+    "label_rule": "high >= 7 and high <= 26, low >= 0, precipitation_sum < 3, wind_speed_10m_max < 30",
+    "city": "Apex, North Carolina",
+    "test_accuracy": 0.8493150684931506,
+    "test_f1": 0.8135593220338984
+}
