@@ -9,7 +9,7 @@ import joblib
 class Prediction:
     """The model's verdict for a single day.
 
-    Atrributes:
+    Attributes:
         label: Either "good" or "skip
         probability: The probability, from 0 to 1, that the day is good for running.
     """

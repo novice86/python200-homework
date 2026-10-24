@@ -38,7 +38,7 @@ class DayForecast:
     will_rain: bool
 
     def summary(self) -> str:
-        return f"{self.date}: high {self.high_c}C, " + "rain expected" if self.will_rain else "rain is not expected"
+        return f"{self.date}: high {self.high_c}C, " + ("rain expected" if self.will_rain else "rain is not expected")
 
 forecast_no_rain = DayForecast("2023-06-15", 25, False)
 print(forecast_no_rain.summary())
