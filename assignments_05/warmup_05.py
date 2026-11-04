@@ -208,6 +208,7 @@ response = client.chat.completions.create(
     response_format={ "type": "json_object" }
 )
 message_content = response.choices[0].message.content
+print(f"Raw response:{message_content}")
 try:
     result = json.loads(message_content)
     print("Parsed sentiment:", result["sentiment"])
@@ -215,7 +216,6 @@ try:
     print("Reason:", result["reason"])
 except json.JSONDecodeError:
     print("Error: response was not valid JSON")
-    print(f"Raw response:{message_content}")
 
 # Prompt Question 6 — Delimiters
 user_text = "First boil a pot of water. Once boiling, add a handful of salt and the \
