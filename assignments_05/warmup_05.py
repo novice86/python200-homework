@@ -76,6 +76,15 @@ response = client.chat.completions.create(
     messages=messages
 )
 print(f"Response Text: {response.choices[0].message.content}")
+messages = [
+    {"role": "system", "content": "You are Python tutor. You always explain things in a complex way without a word of encouragement."},
+    {"role": "user", "content": "I don't understand what a list comprehension is."}
+]
+response = client.chat.completions.create(
+    model="gpt-4o-mini",
+    messages=messages
+)
+print(f"Response Text: {response.choices[0].message.content}")
 # Adding prompt for the system role change the tone of the returned text based on the provided information.
 # it acts as a high-level instruction manual that governs how the AI should respond.
 
@@ -206,6 +215,7 @@ try:
     print("Reason:", result["reason"])
 except json.JSONDecodeError:
     print("Error: response was not valid JSON")
+    print(f"Raw response:{message_content}")
 
 # Prompt Question 6 — Delimiters
 user_text = "First boil a pot of water. Once boiling, add a handful of salt and the \
