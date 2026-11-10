@@ -77,7 +77,7 @@ for q in questions:
 # Step 5: Find a Failure
 query = "How many visitors do you have every day?"
 print(f"Q: {query}")
-response = query_engine.query(q)
+response = query_engine.query(query)
 print("A:", response)
 
 for node_with_score in response.source_nodes:
@@ -95,35 +95,38 @@ for node_with_score in response.source_nodes:
 # available in the documents.
 #
 # What went wrong:
-# The retrieval failed — no relevant chunk existed — but the model
-# guessed an answer anyway, using the closest available context, which
-# was about catering. The retriever always returns its top chunks, even
-# when none of them actually answer the question, and the model treated
-# that context as if it were sufficient.
+# Retrieval failed — no relevant information was returned. The top
+# chunk scored only 0.2035 (faq.txt), followed by menu.txt at 0.1782
+# and wholesale_catering.txt at 0.1644, and none of them mentions
+# visitor numbers. This is expected: the documents contain no such
+# information, so there was nothing relevant to retrieve, but the
+# retriever still returns its top 3 chunks.
 #
 # Did the model's tone change when the retrieval failed?
-# No. The tone did not change at all — the model still sounded confident
-# while giving a wrong answer. This suggests that confidence in an
-# AI-generated response is not a reliable signal of correctness: a
-# confident tone tells you nothing about whether the answer is grounded
-# in the documents, so the response must be checked against its sources
-# instead of trusted on tone alone.
+#  Model abstained correctly, but it did so in declarative voice it
+# uses for well-grounded answers, with no sign that retrieval was
+# weak (top score only 0.2035, versus 0.77 for a good query): 
+# tone tells you nothing about whether the answer is grounded in the documents,
+#  so the response must be checked against its sources instead of trusted
+# on tone alone.
 #
 # What I would change about the system to improve it:
-# I would add faithfulness and relevancy validation, and use the results
-# to decide whether to answer at all. A FaithfulnessEvaluator would
-# check whether every claim in the answer is supported by the retrieved
-# context, and a RelevancyEvaluator would check whether the answer
-# actually addresses the question. Combined with an explicit instruction
-# to answer only from the retrieved context — and a similarity threshold
-# below which the system says "this information is not in the
-# documents" instead of guessing — this would turn a confident
-# hallucination into an honest abstention.
+# I would add faithfulness and relevancy validation, and use the
+# results to decide whether to answer at all — to make
+# the abstention reliable. 
+# A FaithfulnessEvaluator would check whether every claim in the
+# answer is supported by the retrieved context and a
+# RelevancyEvaluator would check whether the answer actually
+# addresses the question. Combined with an explicit instruction
+# to answer only from the retrieved context — and a similarity
+# threshold below which the system says "this information is not
+# in the documents" instead of generating (the top score here was
+# only 0.2035, far below the 0.5–0.77 of the good queries) — this
+# would make the honest abstention happen every time, instead of
+# depending on how the model happens to phrase one particular run.
 
 
 # Step 6: Reflection
-# Step 6: Reflection
-#
 # 1. What LlamaIndex automates, and how much code it took
 #    LlamaIndex automates chunking, embedding, and indexing. In my
 #    project the core of that took just three lines:
