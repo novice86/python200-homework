@@ -218,10 +218,11 @@ class CsvManager:
         return None
 
     # --- Tools (public methods) --------------------------------------
-
     def list_csv_files(self):
-        """
-        List available CSV files in resources/.
+        """List available CSV files in resources/.
+
+        Returns:
+            A dict with a "files" list, or a message if none are found.
         """
         files = self._available_csv_files()
         if not files:
@@ -235,10 +236,13 @@ class CsvManager:
         return {"files": files}
 
     def load_csv(self, filename: str):
-        """
-        Load a CSV file from resources/ and make it the active dataset.
+        """Load a CSV file from resources/ and make it the active dataset.
 
-        filename can be "bike_commute" or "bike_commute.csv".
+        Args:
+            filename: CSV filename in resources/. You can pass "bike_commute" or "bike_commute.csv".
+
+        Returns:
+            A dict with a status message and column names, or an error dict.
         """
         filename = self._normalize_csv_name(filename)
         path = self.resources_dir / filename
@@ -258,8 +262,10 @@ class CsvManager:
         }
 
     def get_columns(self):
-        """
-        Return column names for the currently loaded CSV.
+        """Return column names for the currently loaded CSV.
+
+        Returns:
+            A list of column names, or an error dict if no CSV is loaded.
         """
         error = self._ensure_loaded()
         if error:
@@ -267,11 +273,15 @@ class CsvManager:
         return self.df.columns.tolist()
 
     def summarize_columns(self, columns: list[str] | None = None):
-        """
-        Return basic summary stats for one or more columns.
+        """Return summary stats for selected columns (or all columns). 
+        This includes count, mean, std, min, max, and percentiles for numeric columns,
+        or count, unique, top, freq for categorical columns.
 
-        If columns is None, summarize all columns.
-        Uses pandas.describe(include="all") to stay simple and readable.
+        Args:
+            columns: Column names to summarize. If None, summarizes all columns.
+
+        Returns:
+            A dict of summary statistics (from pandas.describe), or an error dict.
         """
         error = self._ensure_loaded()
         if error:
@@ -289,8 +299,15 @@ class CsvManager:
         return summary.to_dict()
 
     def describe_column(self, column: str):
-        """
-        Simple summary for a single column using pandas.describe().
+        """Describe a single column (basic stats) for the requested column.
+        This includes count, mean, std, min, max, and percentiles for numeric column,
+        or count, unique, top, freq for categorical column.
+
+        Args:
+            column: The name of the column to describe.
+
+        Returns:
+            A dict of basic stats for the column, or an error dict.
         """
         error = self._ensure_loaded()
         if error:
@@ -316,6 +333,12 @@ class CsvManager:
         """
         Compute the Pearson correlation between two columns in the loaded DataFrame.
         Returns the correlation coefficient and p-value.
+
+        Args:
+            col1: The first column name.
+            col2: The second column name.  
+        Returns:
+            A dict with keys: col1, col2, pearson_r, p_value, or an error dict if the columns are not found or no CSV is loaded.
         """
         error = self._ensure_loaded()
         if error:
@@ -335,11 +358,16 @@ class CsvManager:
         }
 
     def plot_data(self, y: str, x: str | None = None, plot_type: str = "line"):
-        """
-        Plot from the active CSV.
-    
-        - If x is None: plot y vs row index.
-        - If x is provided: plot y vs x.
+        """Plot from the active CSV.
+
+        Args:
+            y: Column name to plot on the y-axis. 
+            x: Column name to plot on the x-axis. If None, use row index.
+            plot_type: "line" or "scatter". Scatter requires x and y.
+
+        Returns:
+            Generates and shows the plot. 
+            Retirms a short success message string, or an error dict/string.
         """
         error = self._ensure_loaded()
         if error:
@@ -606,6 +634,7 @@ print(result)
 print(json.dumps(messages, indent=2, default=str))
 
 #Q7
+csv_manager = CsvManager(resources_dir=RESOURCES_DIR)
 @tool
 def list_csv_files() -> dict:
     """List available CSV files in resources/.
@@ -684,17 +713,18 @@ def plot_data(y: str, x: str | None = None, plot_type: str = "line") -> str | di
     """
     return csv_manager.plot_data(y=y, x=x, plot_type=plot_type)
 
+
 @tool
 def compute_correlation(col1: str, col2: str) -> dict:
     """
     Compute the Pearson correlation between two columns in the loaded DataFrame.
-    Returns the correlation coefficient and p-value for the specified columns.
+    Returns the correlation coefficient and p-value.
 
     Args:
-        col1 (str): The name of the first column for correlation.
-        col2 (str): The name of the second column for correlation.
+        col1: The first column name.
+        col2: The second column name.  
     Returns:
-        dict: A dictionary containing the column names, Pearson correlation coefficient, and p-value.
+        A dict with keys: col1, col2, pearson_r, p_value, or an error dict if the columns are not found or no CSV is loaded.
     """
     error = csv_manager._ensure_loaded()
     if error:
@@ -703,7 +733,7 @@ def compute_correlation(col1: str, col2: str) -> dict:
     if col1 not in csv_manager.df.columns or col2 not in csv_manager.df.columns:
         return {
             "error": f"One or both columns are not in the data. Options: {csv_manager.df.columns.tolist()}"
-        }
+            }
 
     person_corr, p_value = pearsonr(csv_manager.df[col1], csv_manager.df[col2])
     return {
@@ -713,7 +743,7 @@ def compute_correlation(col1: str, col2: str) -> dict:
         "p_value": round(p_value, 4),
     }
 
-csv_manager = CsvManager(resources_dir=RESOURCES_DIR)
+
 print(compute_correlation.description)
 # Comparison with Q4 manual JSON schema:
 # In Q4, we had to manually write a nested JSON Schema dictionary specifying the tool's name, description, parameters, and required fields.

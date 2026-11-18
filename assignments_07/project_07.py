@@ -222,12 +222,13 @@ if __name__ == "__main__":
     my_query_1 = "What are the top 3 countries with the highest GDP per capita in 2021?" 
     response_1 = agent.run(my_query_1, reset=False)
     print(response_1)
-    # Comment: Did this trigger tool use, code generation, or both?
+    # Comment: Yes, the agent used the get_top_n_countries tool to retrieve the top 3 countries with the highest GDP per capita in 2021.
 
     # My query 2
     my_query_2 = "Generate dummy data and compute the correlation between two columns, then plot the results."
     response_2 = agent.run(my_query_2, reset=False)
     print(response_2)
+    # Comment: The agent generated dummy data, computed the correlation between two columns, and plotted the results using matplotlib.
 
 
 # Task 5: Reflection
