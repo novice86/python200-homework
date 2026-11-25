@@ -17,4 +17,10 @@ This demostrates that GPU instances are expansive and are best suited for worklo
 learning training or large-scale scientific computign. For small data processing tasks or applications that do not require a GPU, a lightweight scenario is 
 much more cost effective.
 
+## Supabase setup
+* python200 project is created
+* credentials such as project url and key can be found on the Project Settings page
+* SUPABASE_URL and SUPABASE_KEY has been added to the .env file into the Week 9 folder
+* weather_raw and weather_enriched tables with disabled Row Level Security has been created
+
 link to the video: https://youtu.be/o-x_L34-f_s
