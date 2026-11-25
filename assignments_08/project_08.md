@@ -22,3 +22,5 @@ much more cost effective.
 * credentials such as project url and key can be found on the Project Settings page
 * SUPABASE_URL and SUPABASE_KEY has been added to the .env file into the Week 9 folder
 * weather_raw and weather_enriched tables with disabled Row Level Security has been created
+
+link to the video: https://youtu.be/BuTxEPFxrSI
